@@ -14,8 +14,8 @@ char_indices, indices_char = {c: i for i, c in enumerate(chars)}, {i: c for i, c
 max_len, step = 40, 3
 sentences = [text[i: i + max_len] for i in range(0, len(text) - max_len, step)]
 next_chars = [text[i + max_len] for i in range(0, len(text) - max_len, step)]
-x = np.zeros((len(sentences), max_len, len(chars)), dtype=np.bool)
-y = np.zeros((len(sentences), len(chars)), dtype=np.bool)
+x = np.zeros((len(sentences), max_len, len(chars)))
+y = np.zeros((len(sentences), len(chars))) 
 for i, sentence in enumerate(sentences):
     for t, char in enumerate(sentence):
         x[i, t, char_indices[char]] = 1
