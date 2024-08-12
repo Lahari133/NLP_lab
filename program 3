@@ -1,0 +1,80 @@
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+categories=['doctor','teacher','nurse','police']
+data=pd.DataFrame({'Category':categories})
+encoded=OneHotEncoder(sparse_output=False,dtype=int)
+encoded_data=encoded.fit_transform(data)
+encoded_df=pd.DataFrame(encoded_data,columns=categories)
+encoded_df.head()
+
+from sklearn.feature_extraction.text import CountVectorizer
+documents=["This is the first document",
+          "This document is second document",
+          "And this is the third one",
+          "Is this the last one"]
+data=pd.DataFrame({'Text':documents})
+vectorizer=CountVectorizer(ngram_range=(2,3))
+ngram_vectors=vectorizer.fit_transform(data['Text'])
+ngram_df=pd.DataFrame(ngram_vectors.toarray(),columns=vectorizer.get_feature_names_out())
+ngram_df.head()
+           import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+documents=["This is the first document",
+          "This document is second document",
+          "And this is the third one",
+          "Is this the last one"]
+data=pd.DataFrame({'Text':documents})
+vectorizer=TfidfVectorizer()
+tfidf_vectors=vectorizer.fit_transform(data['Text'])
+tfidf_df=pd.DataFrame(tfidf_vectors.toarray(),columns=vectorizer.get_feature_names_out())
+tfidf_df.head()
+           import pandas as pd
+from gensim.models import FastText
+sentences=[["I","love","apples"],["I","enjoy","eating","fruits"]]
+model_fasttext=FastText(sentences,min_count=1,window=5,vector_size=100)
+word_vectors=model_fasttext.wv
+word_vectors_df=pd.DataFrame(word_vectors.vectors,index=word_vectors.index_to_key)
+word_vectors_df.head(10)
+           this is the third one",
+          "Is this the last one"]
+data=pd.DataFrame({'Text':documents})
+vectorizer=CountVectorizer()
+bow_vectors=vectorizer.fit_transform(data['Text'])
+bow_df=pd.DataFrame(bow_vectors.toarray(),columns=vectorizer.get_feature_names_out())
+bow_df.head()
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+documents=["This is the first document",
+          "This document is second document",
+          "And this is the third one",
+          "Is this the last one"]
+data=pd.DataFrame({'Text':documents})
+vectorizer=CountVectorizer(ngram_range=(2,3))
+ngram_vectors=vectorizer.fit_transform(data['Text'])
+ngram_df=pd.DataFrame(ngram_vectors.toarray(),columns=vectorizer.get_feature_names_out())
+ngram_df.head()
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+documents=["This is the first document",
+          "This document is second document",
+          "And this is the third one",
+          "Is this the last one"]
+data=pd.DataFrame({'Text':documents})
+vectorizer=TfidfVectorizer()
+tfidf_vectors=vectorizer.fit_transform(data['Text'])
+tfidf_df=pd.DataFrame(tfidf_vectors.toarray(),columns=vectorizer.get_feature_names_out())
+tfidf_df.head()
+import pandas as pd
+from gensim.models import FastText
+sentences=[["I","love","apples"],["I","enjoy","eating","fruits"]]
+model_fasttext=FastText(sentences,min_count=1,window=5,vector_size=100)
+word_vectors=model_fasttext.wv
+word_vectors_df=pd.DataFrame(word_vectors.vectors,index=word_vectors.index_to_key)
+word_vectors_df.head(10)
+import pandas as pd
+documents=["This is the first document",
+          "This document is second document",
+          "And this is the third one",
+          "Is this the last one"]
+custom_features=[[[len(doc)] for doc in documents]]
+print(custom_features)
