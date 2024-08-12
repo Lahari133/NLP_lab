@@ -1,0 +1,40 @@
+from hmmlearn import hmm
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+import numpy as np
+
+X=[['walk','in','the','park'],['eat','apple'],['eat','apple','in','the','morning']]
+y=[['V','P','D','N'],['V','N'],['V','N','P','D','N']]
+X_enc=[[ord(w[0])-ord('a')+1 for w in sent]for sent in X]
+y_enc=[[ord(tag)-ord('A') for tag in tags]for tags in y]
+X_train,X_test,y_train,y_test=train_test_split(X_enc,y_enc,test_size=0.2,random_state=42)
+
+hmm_model=hmm.MultinomialHMM(n_components=3)
+hmm_model.fit(np.concatenate(X_train).reshape(-1,1),[len(x) for x in X_train])
+_, hmm_pred=hmm_model.decode(np.concatenate(X_test).reshape(-1,1),lengths=[len(x) for x in X_test])
+hmm_pred_labels=[chr(state+ord('A')) for state in hmm_pred]
+
+y_test_flat=[chr(tag+ord('A'))for tags in y_test for tag in tags]
+print(classification_report(y_test_flat,hmm_pred_labels))
+
+
+from hmmlearn import hmm
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+import numpy as np
+from sklearn.crfsuite import CRF
+
+X=[['walk','in','the','park'],['eat','apple'],['eat','apple','in','the','morning']]
+y=[['V','P','D','N'],['V','N'],['V','N','P','D','N']]
+word_to_index={word:idx for idx ,word in enumerate(set(word for sentence in X for word in sentence))}
+X_numeric=[[word_to_index[word] for word in sentence]for sentence in X]
+y_numeric=[[label for label in sentence] for sentence in y]
+X_train,X_test,y_train,y_test=train_test_split(X_numeric,y_numeric,test_size=0.2,random_state=42)
+X_train_crf=[[{'word':word} for word in sentence]for sentence in X_train]
+crf_model=CRF()
+crf_model.fit(X_train_crf,y_train)
+def flatten_list(lst):
+    return [item for sublist in lst for item in sublist]
+X_test_crf=[[{'word':word} for word in sentence]for sentence in X_test]
+crf_pred=crf_model.predict(X_test_crf)
+print(classification_report(flatten_list(y_test),flatten_list(crf_pred)))
